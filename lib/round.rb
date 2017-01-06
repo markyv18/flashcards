@@ -1,30 +1,31 @@
 class Round
-  attr_reader :deck, :guesses
+  attr_reader :deck, :guesses, :number_correct, :number_incorrect
 
   def initialize(deck)
     @deck = deck
     @guesses = []
+    @number_correct = 0
+    @number_incorrect = 0
   end
 
-  def record_guess(guess)
+  def record_guess(guess, card)
+    guess = Guess.new(guess, card)
     @guesses << guess
+    if guess.correct?
+      @number_correct += 1
+    else
+      @number_incorrect += 1
+    end
+    guess
   end
 
   def current_card
-    for 
-      deck.cards[0]
+      deck.cards.shift
   end
 
-  def feedback
-    if correct?
-      "Correct!"
-    else
-      "wrong answer, try again please"
-    end
+  def percent_correct
+    100 * (@number_correct.to_f / @guesses.count)
   end
 
-  def number_correct
-
-  end
 
 end
